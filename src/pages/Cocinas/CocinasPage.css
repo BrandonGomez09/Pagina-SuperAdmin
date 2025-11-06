@@ -1,0 +1,21 @@
+/* Usamos nombres de clases genéricos para reutilizar */
+/* Este CSS es muy similar a tu HomePage.css [cite: 42-43] */
+.list-section {
+  width: 100%;
+  max-width: 900px; /* [cite: 42] */
+  margin: 2rem auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+.list-title {
+  font-size: 1.8rem; /* [cite: 43] */
+  color: #333; /* [cite: 43] */
+  margin-bottom: 1.5rem; /* [cite: 43] */
+}
+
+.list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Usamos gap en lugar de margin en el item */
+}

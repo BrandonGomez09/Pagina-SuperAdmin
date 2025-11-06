@@ -1,0 +1,99 @@
+/* Estilos para la tarjeta individual de la cocina */
+.cocina-item-card {
+  background-color: #ffffff; /* [cite: 44] */
+  border: 1px solid #e0e0e0; /* [cite: 44] */
+  border-radius: 8px; /* [cite: 44] */
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); /* [cite: 44] */
+  overflow: hidden;
+}
+
+/* Cabecera clickeable */
+.cocina-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem; /* [cite: 44] */
+  cursor: pointer;
+}
+
+.cocina-header:hover {
+  background-color: #fcfcfc;
+}
+
+.cocina-header h3 {
+  margin: 0;
+  font-size: 1.1rem; /* [cite: 45] */
+  font-weight: 600; /* [cite: 45] */
+  color: #2c2c2c; /* [cite: 45] */
+}
+
+.cocina-toggle-btn {
+  font-size: 0.9em;
+  color: #7D573C; /* [cite: 49] */
+  font-weight: 600; /* [cite: 47] */
+}
+
+/* Detalles de la cocina (contenido colapsado) */
+.cocina-details {
+  padding: 0 1.5rem 1.5rem 1.5rem;
+  border-top: 1px solid #f0f0f0;
+  background-color: #fafafa;
+}
+
+.cocina-details p {
+  margin: 15px 0 0 0;
+  line-height: 1.6;
+  color: #555;
+}
+
+.cocina-details p:first-child {
+  margin-top: 1.5rem;
+}
+
+.cocina-details p strong {
+  color: #222;
+}
+
+/* ... (estilos que ya tenías) ... */
+
+/* Nuevo estilo para el nombre del responsable */
+.cocina-responsable {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* Estilos para los detalles internos */
+.details-subtitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #333;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.cocina-details p {
+  margin: 0;
+  line-height: 1.5;
+  color: #555;
+  padding: 8px 0;
+}
+
+.cocina-details p strong {
+  color: #222;
+}
+
+/* Rejilla para mostrar los datos */
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 0 1rem;
+}
+
+/* Clase para que un campo ocupe todo el ancho (ej. Descripción) */
+.full-width {
+  grid-column: 1 / -1;
+}

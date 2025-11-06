@@ -1,0 +1,77 @@
+/* Este es el archivo que antes se llamaba 'RequestList.css' */
+.requests-section {
+  width: 100%;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  box-sizing: border-box;
+}
+
+.requests-title {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  display: flex; /* Para alinear el contador */
+  justify-content: space-between; /* Para alinear el contador */
+  align-items: center; /* Para alinear el contador */
+}
+
+/* 1. AÑADIMOS EL ESTILO PARA EL CONTADOR */
+.item-counter {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  background-color: #7D573C; /* Color principal */
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
+  line-height: 1;
+}
+
+.requests-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* 2. LIMPÍAMOS ESTILOS
+  Quitamos .request-card, .request-info, .kitchen-name, 
+  .applicant-name y .request-actions.
+  ¡Esos estilos AHORA VIVEN en 'SolicitudItem.css'!
+*/
+
+/* Mantenemos los estilos de botones, ya que son globales
+  y los usan AMBOS componentes (SolicitudItem y CocinaItem)
+*/
+.btn {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.btn-accept {
+  background-color: #7D573C;
+  color: #FFFFFF;
+  border-color: #7D573C;
+}
+
+.btn-accept:hover {
+  background-color: #6a4a33;
+  border-color: #6a4a33;
+}
+
+.btn-reject {
+  background-color: transparent;
+  color: #7D573C;
+  border-color: #7D573C;
+}
+
+.btn-reject:hover {
+  background-color: #FFFCF5;
+  color: #6a4a33;
+  border-color: #6a4a33;
+}

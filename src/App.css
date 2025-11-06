@@ -1,0 +1,7 @@
+main {
+  /* 60px (altura del header) + 32px (margen) */
+  padding-top: 92px; 
+  
+  /* 50px (altura del footer) + 32px (margen) */
+  padding-bottom: 82px;
+}

@@ -1,5 +1,11 @@
+// src/components/CocinaItem/CocinaItem.jsx
+
 import React, { useState } from 'react';
-import './CocinaItem.css'; // Importamos los estilos
+import './CocinaItem.css';
+
+// --- NUEVA FUNCIÓN ---
+// Esta función nos ayuda a mostrar un texto alternativo si el dato no existe
+const d = (data) => data || 'No disponible';
 
 // Recibe los datos de una sola cocina como 'prop'
 const CocinaItem = ({ cocina }) => {
@@ -9,16 +15,17 @@ const CocinaItem = ({ cocina }) => {
     setIsOpen(!isOpen);
   };
   
-  // Creamos el nombre completo del responsable
-  const responsable = `${cocina.nombres} ${cocina.primerApellido}`;
+  // --- LÓGICA DE DATOS ACTUALIZADA ---
+  // Usamos el email de contacto como "Responsable" por ahora
+  const responsable = d(cocina.contact_email);
+  const kitchenName = d(cocina.name);
 
   return (
     <div className="cocina-item-card">
       <div className="cocina-header" onClick={toggleOpen}>
-        {/* Mostramos el nombre de la cocina y quién es el responsable */}
         <div>
-          <h3>{cocina.nombre}</h3>
-          <span className="cocina-responsable">Responsable: {responsable}</span>
+          <h3>{kitchenName}</h3>
+          <span className="cocina-responsable">Email Contacto: {responsable}</span>
         </div>
         <span className="cocina-toggle-btn">
           {isOpen ? 'Ocultar' : 'Ver detalles'}
@@ -26,36 +33,30 @@ const CocinaItem = ({ cocina }) => {
       </div>
 
       {/* --- SECCIÓN DE DETALLES ACTUALIZADA --- */}
+      {/* Ahora usamos la función 'd()' para evitar errores */}
       {isOpen && (
         <div className="cocina-details">
           
-          {/* Sección 1: Datos del Responsable */}
           <h4 className="details-subtitle">1. Datos del Responsable</h4>
           <div className="details-grid">
-            <p><strong>Nombres:</strong> {cocina.nombres}</p>
-            <p><strong>Primer Apellido:</strong> {cocina.primerApellido}</p>
-            <p><strong>Segundo Apellido:</strong> {cocina.segundoApellido}</p>
-            <p><strong>Correo Electrónico:</strong> {cocina.correoResponsable}</p>
-            <p><strong>Número de Teléfono:</strong> {cocina.telefonoResponsable}</p>
+            <p><strong>Nombres:</strong> {d(cocina.nombres)}</p>
+            <p><strong>Primer Apellido:</strong> {d(cocina.primerApellido)}</p>
+            <p><strong>Correo Electrónico:</strong> {d(cocina.correoResponsable)}</p>
           </div>
 
-          {/* Sección 2: Datos de la Cocina */}
           <h4 className="details-subtitle">2. Datos de la Cocina</h4>
           <div className="details-grid">
-            <p><strong>Nombre:</strong> {cocina.nombre}</p>
-            <p><strong>Teléfono de contacto:</strong> {cocina.telefono}</p>
-            <p><strong>Email de contacto:</strong> {cocina.email}</p>
-            <p className="full-width"><strong>Descripción:</strong><br/> {cocina.descripcion}</p>
+            <p><strong>Nombre:</strong> {d(cocina.name)}</p>
+            <p><strong>Teléfono de contacto:</strong> {d(cocina.contact_phone)}</p>
+            <p><strong>Email de contacto:</strong> {d(cocina.contact_email)}</p>
+            <p className="full-width"><strong>Descripción:</strong><br/> {d(cocina.description)}</p>
           </div>
 
-          {/* Sección 3: Ubicación */}
           <h4 className="details-subtitle">3. Ubicación</h4>
           <div className="details-grid">
-            <p><strong>Dirección:</strong> {cocina.direccion}</p>
-            <p><strong>Barrio o Colonia:</strong> {cocina.barrio}</p>
-            <p><strong>Estado:</strong> {cocina.estado}</p>
-            <p><strong>Municipio:</strong> {cocina.municipio}</p>
-            <p><strong>Código Postal:</strong> {cocina.codigoPostal}</p>
+            <p><strong>Dirección:</strong> {d(cocina.direccion)}</p>
+            <p><strong>Barrio o Colonia:</strong> {d(cocina.barrio)}</p>
+            <p><strong>Estado:</strong> {d(cocina.estado)}</p>
           </div>
 
         </div>

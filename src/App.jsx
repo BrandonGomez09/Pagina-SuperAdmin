@@ -2,17 +2,24 @@ import React, { useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/Login/LoginPage';
 import HomePage from './pages/Home/HomePage';
-import CocinasPage from './pages/Cocinas/CocinasPage'; // <-- 1. IMPORTAR
+import CocinasPage from './pages/Cocinas/CocinasPage';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import MainLayout from './layouts/MainLayout';
-import './App.css'; 
+import './App.css';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Función para iniciar sesión (ya existente)
   const handleLogin = () => {
     setIsLoggedIn(true);
   };
   
+  // FUNCIÓN PARA CERRAR SESIÓN (NUEVA)
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
   return (
     <Routes>
       {/* Ruta Pública: /login */}
@@ -21,12 +28,19 @@ function App() {
         element={<LoginPage onLogin={handleLogin} />} 
       />
 
-      {/* Ruta Protegida: / */}
+      {/* VERIFICACIÓN DE RUTAS PROTEGIDAS: SÍ, YA TIENES ProtectedRoute.
+          La ruta principal "/" y sus hijas (Home, /cocinas) están protegidas
+          por el componente <ProtectedRoute />[cite: 18].
+          Si isLoggedIn es false, ProtectedRoute redirige a /login.
+          
+          CAMBIO: Pasamos la función de cierre de sesión al MainLayout.
+      */}
       <Route
         path="/"
         element={
           <ProtectedRoute isLoggedIn={isLoggedIn}>
-             <MainLayout />
+            {/* PASAMOS handleLogout AL LAYOUT [cite: 18] */}
+            <MainLayout onLogout={handleLogout} /> 
           </ProtectedRoute>
         }
       >

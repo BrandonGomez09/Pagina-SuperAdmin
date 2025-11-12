@@ -4,10 +4,12 @@ import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 
 // Esta es la plantilla para todas las páginas protegidas
-const MainLayout = () => {
+// RECIBIMOS LA PROP 'onLogout' [cite: 109]
+const MainLayout = ({ onLogout }) => { 
   return (
     <>
-      <Header />
+      {/* PASAMOS LA PROP 'onLogout' AL HEADER */}
+      <Header onLogout={onLogout} />
       <main>
         {/* Outlet renderizará el componente de la ruta hija (ej. HomePage) */}
         <Outlet />

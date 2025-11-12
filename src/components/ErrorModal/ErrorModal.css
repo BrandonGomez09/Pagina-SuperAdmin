@@ -1,0 +1,60 @@
+/* src/components/ErrorModal/ErrorModal.css */
+
+.modal-overlay {
+  /* Reutilizamos el overlay para centrar el modal */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Color de fondo oscuro [cite: 66] */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000; /* Asegura que esté por encima de todo [cite: 66] */
+}
+
+.modal-content {
+  background-color: #FFFFFF; /* Fondo blanco [cite: 67] */
+  padding: 2rem;
+  border-radius: 8px; /* Esquinas redondeadas [cite: 67] */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 400px; /* Un poco más pequeño que el modal de rechazo [cite: 67] */
+  text-align: center;
+}
+
+.modal-title {
+  margin-top: 0;
+  font-size: 1.5rem; /* Título grande [cite: 68] */
+  color: #c90000; /* Color de error (Rojo) */
+}
+
+.modal-message {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.modal-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+/* Estilo para el botón de cerrar (adaptamos un estilo simple) */
+.btn-close {
+  padding: 0.6rem 1.2rem;
+  font-size: 0.9rem; /* Tamaño de fuente [cite: 127] */
+  font-weight: 600; /* Peso de fuente [cite: 127] */
+  border-radius: 6px; /* Bordes redondeados [cite: 127] */
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #c90000;
+  background-color: transparent;
+  color: #c90000;
+}
+
+.btn-close:hover {
+  background-color: #ffe0e0;
+}

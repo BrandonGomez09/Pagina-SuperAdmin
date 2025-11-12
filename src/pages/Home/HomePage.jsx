@@ -12,41 +12,48 @@ const HomePage = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [rejectionTargetId, setRejectionTargetId] = useState(null);
 
-  const API_URL = 'http://localhost/api/kitchens';
+  const API_URL = 'http://localhost/api/kitchens'; // (Esto debe ser 'http://localhost/api/v1/kitchens')
 
-  // Función para cargar los datos (sin cambios)
+  // --- FUNCIÓN FETCHDATA MODIFICADA ---
   const fetchData = async () => {
     try {
+      // Cargar Pendientes
       const requestsRes = await fetch(`${API_URL}/pending`);
       const requestsData = await requestsRes.json();
-      setPendingRequests(requestsData);
+      
+      // ¡CAMBIO AQUÍ! Leemos la propiedad "data" del JSON
+      if (requestsData && requestsData.success && Array.isArray(requestsData.data)) {
+        setPendingRequests(requestsData.data);
+      } else {
+        setPendingRequests([]); // Ponemos un array vacío si falla
+      }
 
+      // Cargar Aprobadas (Asumimos la misma estructura)
       const kitchensRes = await fetch(`${API_URL}/approved`);
       const kitchensData = await kitchensRes.json();
-      setRegisteredKitchens(kitchensData);
+      
+      // ¡CAMBIO AQUÍ! También leemos la propiedad "data"
+      if (kitchensData && kitchensData.success && Array.isArray(kitchensData.data)) {
+        setRegisteredKitchens(kitchensData);
+      } else {
+        setRegisteredKitchens([]);
+      }
       
     } catch (error) {
       console.error("Error al cargar los datos:", error);
     }
   };
+  // --- FIN DE LA MODIFICACIÓN ---
 
-  // --- CAMBIO CLAVE: useEffect AHORA TIENE UN INTERVALO ---
   useEffect(() => {
-    // 1. Llama a fetchData() inmediatamente la primera vez
     fetchData();
-
-    // 2. Configura un intervalo para llamar a fetchData() cada 10 segundos
     const intervalId = setInterval(() => {
       console.log("Buscando nuevas solicitudes...");
       fetchData();
-    }, 10000); // 10000 milisegundos = 10 segundos
+    }, 10000); 
 
-    // 3. Función de limpieza:
-    // Esto es MUY importante. Cuando el usuario sale de esta página,
-    // el intervalo se detiene para evitar errores y consumo de memoria.
     return () => clearInterval(intervalId);
-    
-  }, []); // El array vacío [] asegura que esto se configure solo una vez
+  }, []); 
 
   // Lógica de Aceptar (sin cambios)
   const handleAccept = async (id) => {
@@ -55,10 +62,7 @@ const HomePage = () => {
         method: 'POST',
       });
       if (res.ok) {
-        // ANTES: llamábamos a fetchData() aquí.
-        // AHORA: ya no es necesario, el intervalo lo hará automáticamente.
-        // (Pero lo dejamos para una respuesta instantánea)
-        fetchData(); 
+        fetchData();
       } else {
         console.error("Error al aprobar la solicitud");
       }
@@ -87,8 +91,6 @@ const HomePage = () => {
         body: JSON.stringify({ reason: reason }),
       });
       if (res.ok) {
-        // Igual que en Aceptar, el intervalo lo haría,
-        // pero lo dejamos para una respuesta instantánea.
         fetchData();
       } else {
         console.error("Error al rechazar la solicitud");

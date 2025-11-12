@@ -1,7 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // <--- CAMBIO: Importar hook de navegación
 import './Header.css';
 
-const Header = () => {
+// RECIBIMOS LA PROP 'onLogout'
+const Header = ({ onLogout }) => {
+  const navigate = useNavigate(); // Inicializar hook
+
+  // FUNCIÓN PARA MANEJAR EL LOGOUT (NUEVA)
+  const handleLogout = () => {
+    // 1. Ejecutar la función de App.jsx para cambiar isLoggedIn a false
+    onLogout();
+    // 2. Redirigir a la página de login
+    navigate('/login', { replace: true });
+  }
+
   return (
     <header className="main-header">
       <div className="header-left">
@@ -14,8 +26,12 @@ const Header = () => {
       <div className="header-center">
         <h1>Bienestar Integral</h1>
       </div>
+ 
+      {/* CAMBIO: Agregamos el botón de Cerrar Sesión */}
       <div className="header-right">
-        {/* Espacio reservado para futuros botones */}
+        <button className="logout-button" onClick={handleLogout}>
+          Cerrar Sesión
+        </button>
       </div>
     </header>
   );

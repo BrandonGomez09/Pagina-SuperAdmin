@@ -1,16 +1,16 @@
+// src/components/Header/Header.jsx
+
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; // <--- CAMBIO: Importar hook de navegación
+// Importamos NavLink para los links de navegación
+import { useNavigate, NavLink } from 'react-router-dom'; 
 import './Header.css';
 
-// RECIBIMOS LA PROP 'onLogout'
 const Header = ({ onLogout }) => {
-  const navigate = useNavigate(); // Inicializar hook
+  const navigate = useNavigate();
 
-  // FUNCIÓN PARA MANEJAR EL LOGOUT (NUEVA)
+  // Función para manejar el logout
   const handleLogout = () => {
-    // 1. Ejecutar la función de App.jsx para cambiar isLoggedIn a false
     onLogout();
-    // 2. Redirigir a la página de login
     navigate('/login', { replace: true });
   }
 
@@ -23,11 +23,34 @@ const Header = ({ onLogout }) => {
           className="logo"
         />
       </div>
+      
       <div className="header-center">
-        <h1>Bienestar Integral</h1>
+        <nav className="main-nav">
+          <NavLink 
+            to="/" 
+            end // 'end' asegura que solo esté activo en la ruta exacta "/"
+            className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+          >
+            Solicitudes
+          </NavLink>
+          <NavLink 
+            to="/cocinas" 
+            className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+          >
+            Cocinas Registradas
+          </NavLink>
+
+          {/* --- AÑADIR ESTE NAVLINK --- */}
+          <NavLink 
+            to="/rechazadas" 
+            className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+          >
+            Historial Rechazadas
+          </NavLink>
+          {/* ------------------------- */}
+        </nav>
       </div>
- 
-      {/* CAMBIO: Agregamos el botón de Cerrar Sesión */}
+      
       <div className="header-right">
         <button className="logout-button" onClick={handleLogout}>
           Cerrar Sesión

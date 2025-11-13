@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import './CocinaItem.css';
 
 // Función 'd' (sin cambios)
-const d = (data) => (data !== null && data !== undefined) ? String(data) : 'No disponible';
+const d = (data) => (data !== null && data !== undefined) ?
+String(data) : 'No disponible';
 
 // Recibe los datos de una sola cocina como 'prop'
 const CocinaItem = ({ cocina }) => {
@@ -13,18 +14,17 @@ const CocinaItem = ({ cocina }) => {
   const toggleOpen = () => {
     setIsOpen(!isOpen);
   };
-  
-  // --- LÓGICA DE DATOS ACTUALIZADA ---
-  // Ahora leemos el JSON anidado ideal
-  const kitchenName = d(cocina.kitchen?.name);
-  const responsable = `${d(cocina.user?.names)} ${d(cocina.user?.firstLastName)}`;
+
+  // --- LÓGICA DE DATOS (Sin cambios) ---
+  const kitchenName = d(cocina.name);
+  const responsable = `ID Propietario: ${d(cocina.owner_id)}`;
 
   return (
     <div className="cocina-item-card">
       <div className="cocina-header" onClick={toggleOpen}>
         <div>
           <h3>{kitchenName}</h3>
-          <span className="cocina-responsable">Responsable: {responsable}</span>
+          <span className="cocina-responsable">{responsable}</span>
         </div>
         <span className="cocina-toggle-btn">
           {isOpen ? 'Ocultar' : 'Ver detalles'}
@@ -32,26 +32,36 @@ const CocinaItem = ({ cocina }) => {
       </div>
 
       {/* --- SECCIÓN DE DETALLES ACTUALIZADA --- */}
-      {/* Ahora lee la estructura anidada completa */}
       {isOpen && (
-        <div className="cocina-details">
+        <div className="solicitud-details"> {/* Reusamos la clase de CSS */}
           
-          <h4 className="details-subtitle">1. Datos del Responsable (user)</h4>
+          <h4 className="details-subtitle">1. Datos del Propietario</h4>
           <div className="details-grid">
-            <p><strong>Nombres:</strong> {d(cocina.user?.names)}</p>
-            <p><strong>Primer Apellido:</strong> {d(cocina.user?.firstLastName)}</p>
-            <p><strong>Segundo Apellido:</strong> {d(cocina.user?.secondLastName)}</p>
-            <p><strong>Correo Electrónico:</strong> {d(cocina.user?.email)}</p>
-            <p><strong>Teléfono:</strong> {d(cocina.user?.phoneNumber)}</p>
+            <p><strong>ID del Propietario (owner_id):</strong> {d(cocina.owner_id)}</p>
           </div>
 
-          <h4 className="details-subtitle">2. Datos de la Cocina (kitchen)</h4>
+          <h4 className="details-subtitle">2. Datos de la Cocina</h4>
           <div className="details-grid">
-            <p><strong>Nombre:</strong> {d(cocina.kitchen?.name)}</p>
-            <p><strong>Teléfono de contacto:</strong> {d(cocina.kitchen?.contactPhone)}</p>
-            <p><strong>Email de contacto:</strong> {d(cocina.kitchen?.contactEmail)}</p>
-            <p className="full-width"><strong>URL de Imagen:</strong> {d(cocina.kitchen?.imageUrl)}</p>
-            <p className="full-width"><strong>Descripción:</strong><br/> {d(cocina.kitchen?.description)}</p>
+            <p><strong>Nombre:</strong> {d(cocina.name)}</p>
+            <p><strong>ID de la Cocina:</strong> {d(cocina.id)}</p>
+            <p><strong>Estatus:</strong> {d(cocina.approval_status)}</p>
+            
+            {/* --- INICIO DE LA CORRECCIÓN --- */}
+            {/* Mostrar campos relevantes según el estatus */}
+            
+            {cocina.approval_status === 'approved' && (
+              <>
+                <p><strong>Aprobado por (ID Admin):</strong> {d(cocina.approved_by)}</p>
+                <p><strong>Fecha Aprobación:</strong> {d(cocina.approval_date)}</p>
+              </>
+            )}
+
+            {cocina.approval_status === 'rejected' && (
+              <p className="full-width"><strong>Razón de Rechazo:</strong> {d(cocina.rejection_reason)}</p>
+            )}
+            {/* --- FIN DE LA CORRECCIÓN --- */}
+            
+            <p className="full-width"><strong>Descripción:</strong><br/> {d(cocina.description)}</p>
           </div>
 
           <h4 className="details-subtitle">3. Ubicación (location)</h4>

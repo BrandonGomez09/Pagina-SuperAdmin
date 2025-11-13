@@ -1,22 +1,21 @@
-// src/pages/Cocinas/CocinasPage.jsx
+// src/pages/Rechazadas/RechazadasPage.jsx
 
 import React, { useState, useEffect } from 'react';
 import CocinaItem from '../../components/CocinaItem/CocinaItem';
-import './CocinasPage.css'; // Estilos para esta página
+import './RechazadasPage.css'; // Estilos para esta página
 
-const CocinasPage = () => {
+const RechazadasPage = () => {
   const [cocinas, setCocinas] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  // Usamos la misma URL que en HomePage
   const API_URL = 'http://localhost:3004/api/v1/kitchens';
 
   useEffect(() => {
-    const fetchCocinas = async () => {
+    const fetchCocinasRechazadas = async () => {
       setLoading(true);
       try {
-        // Asumimos que /approved es el endpoint para cocinas registradas
-        const res = await fetch(`${API_URL}/approved`); 
+        // --- CAMBIO DE ENDPOINT ---
+        const res = await fetch(`${API_URL}/rejected`); 
         const data = await res.json();
         
         if (data && data.success && Array.isArray(data.data)) {
@@ -25,35 +24,35 @@ const CocinasPage = () => {
           setCocinas([]);
         }
       } catch (error) {
-        console.error("Error al cargar las cocinas:", error);
+        console.error("Error al cargar las cocinas rechazadas:", error);
         setCocinas([]);
       }
       setLoading(false);
     };
 
-    fetchCocinas();
-  }, []); // Se ejecuta solo una vez al cargar la página
+    fetchCocinasRechazadas();
+  }, []);
 
-  // Mensaje de carga
   if (loading) {
     return (
       <div className="list-section">
-        <h2 className="list-title">Cargando cocinas...</h2>
+        <h2 className="list-title">Cargando historial de rechazos...</h2>
       </div>
     );
   }
 
   return (
     <div className="list-section">
-      <h2 className="list-title">Cocinas Comunitarias Registradas</h2>
+      <h2 className="list-title">Cocinas Rechazadas</h2>
       <div className="list-container">
         
         {cocinas.length > 0 ? (
           cocinas.map((cocina) => (
+            // Reutilizamos el mismo componente CocinaItem
             <CocinaItem key={cocina.id} cocina={cocina} />
           ))
         ) : (
-          <p>No hay cocinas registradas para mostrar.</p>
+          <p>No hay cocinas rechazadas para mostrar.</p>
         )}
 
       </div>
@@ -61,4 +60,4 @@ const CocinasPage = () => {
   );
 };
 
-export default CocinasPage;
+export default RechazadasPage;

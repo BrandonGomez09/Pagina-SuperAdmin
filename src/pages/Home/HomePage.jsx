@@ -2,67 +2,57 @@
 
 import React, { useState, useEffect } from 'react';
 import './HomePage.css';
-import CocinaItem from '../../components/CocinaItem/CocinaItem';
+// Ya no importamos CocinaItem
 import SolicitudItem from '../../components/SolicitudItem/SolicitudItem';
 import RejectModal from '../../components/RejectModal/RejectModal';
 
 const HomePage = () => {
   const [pendingRequests, setPendingRequests] = useState([]);
-  const [registeredKitchens, setRegisteredKitchens] = useState([]);
+  // Ya no necesitamos 'registeredKitchens' en esta página
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [rejectionTargetId, setRejectionTargetId] = useState(null);
 
-  const API_URL = 'http://localhost/api/kitchens'; // (Esto debe ser 'http://localhost/api/v1/kitchens')
+  const API_URL = 'http://localhost:3004/api/v1/kitchens';
+  const ADMIN_ID = 1;
 
-  // --- FUNCIÓN FETCHDATA MODIFICADA ---
-  const fetchData = async () => {
+  // Dejamos solo la lógica para cargar las solicitudes PENDIENTES
+  const fetchPendingData = async () => {
     try {
-      // Cargar Pendientes
       const requestsRes = await fetch(`${API_URL}/pending`);
       const requestsData = await requestsRes.json();
       
-      // ¡CAMBIO AQUÍ! Leemos la propiedad "data" del JSON
       if (requestsData && requestsData.success && Array.isArray(requestsData.data)) {
         setPendingRequests(requestsData.data);
       } else {
-        setPendingRequests([]); // Ponemos un array vacío si falla
+        setPendingRequests([]); 
       }
-
-      // Cargar Aprobadas (Asumimos la misma estructura)
-      const kitchensRes = await fetch(`${API_URL}/approved`);
-      const kitchensData = await kitchensRes.json();
-      
-      // ¡CAMBIO AQUÍ! También leemos la propiedad "data"
-      if (kitchensData && kitchensData.success && Array.isArray(kitchensData.data)) {
-        setRegisteredKitchens(kitchensData);
-      } else {
-        setRegisteredKitchens([]);
-      }
-      
     } catch (error) {
-      console.error("Error al cargar los datos:", error);
+      console.error("Error al cargar las solicitudes pendientes:", error);
+      setPendingRequests([]);
     }
   };
-  // --- FIN DE LA MODIFICACIÓN ---
 
   useEffect(() => {
-    fetchData();
+    fetchPendingData(); // Renombramos la función para más claridad
     const intervalId = setInterval(() => {
       console.log("Buscando nuevas solicitudes...");
-      fetchData();
+      fetchPendingData();
     }, 10000); 
 
     return () => clearInterval(intervalId);
-  }, []); 
+  }, []);
 
-  // Lógica de Aceptar (sin cambios)
+  // --- Lógica de Aceptar (Modificada) ---
   const handleAccept = async (id) => {
     try {
       const res = await fetch(`${API_URL}/${id}/approve`, {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ adminUserId: ADMIN_ID }),
       });
       if (res.ok) {
-        fetchData();
+        // En lugar de recargar todo, solo actualizamos las pendientes
+        fetchPendingData(); 
       } else {
         console.error("Error al aprobar la solicitud");
       }
@@ -71,12 +61,7 @@ const HomePage = () => {
     }
   };
 
-  // Lógica de Rechazar (sin cambios)
-  const handleReject = (id) => {
-    setRejectionTargetId(id);
-    setModalIsOpen(true);
-  };
-
+  // --- Lógica de Rechazar (Modificada) ---
   const handleSubmitRejection = async (reason) => {
     if (!reason) {
       alert("Por favor, ingresa un motivo para rechazar.");
@@ -85,13 +70,15 @@ const HomePage = () => {
     try {
       const res = await fetch(`${API_URL}/${rejectionTargetId}/reject`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ reason: reason }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          reason: reason,
+          adminUserId: ADMIN_ID 
+        }),
       });
       if (res.ok) {
-        fetchData();
+        // Solo actualizamos las pendientes
+        fetchPendingData(); 
       } else {
         console.error("Error al rechazar la solicitud");
       }
@@ -102,39 +89,41 @@ const HomePage = () => {
     setRejectionTargetId(null);
   };
 
+  const handleReject = (id) => {
+    setRejectionTargetId(id);
+    setModalIsOpen(true);
+  };
+
   const handleCloseModal = () => {
     setModalIsOpen(false);
     setRejectionTargetId(null);
   };
 
-  // JSX (sin cambios)
+  // --- JSX (Simplificado) ---
   return (
     <>
       <section className="requests-section">
-        <h2 className="requests-title">Solicitudes de cocinas</h2>
+        <h2 className="requests-title">
+          Solicitudes Pendientes
+          <span className="item-counter">({pendingRequests.length})</span>
+        </h2>
         <div className="requests-container">
-          {pendingRequests.map((request) => (
-            <SolicitudItem 
-              key={request.id}
-              request={request}
-              onAccept={handleAccept}
-              onReject={handleReject}
-            />
-          ))}
+          {pendingRequests.length > 0 ? (
+            pendingRequests.map((request) => (
+              <SolicitudItem 
+                key={request.id}
+                request={request}
+                onAccept={handleAccept}
+                onReject={handleReject}
+              />
+            ))
+          ) : (
+            <p>No hay solicitudes pendientes para mostrar.</p>
+          )}
         </div>
       </section>
 
-      <section className="requests-section">
-        <h2 className="requests-title">
-          Cocinas Registradas 
-          <span className="item-counter">({registeredKitchens.length})</span>
-        </h2>
-        <div className="requests-container">
-          {registeredKitchens.map((cocina) => (
-            <CocinaItem key={cocina.id} cocina={cocina} />
-          ))}
-        </div>
-      </section>
+      {/* YA NO MOSTRAMOS LA LISTA DE COCINAS REGISTRADAS AQUÍ */}
 
       <RejectModal 
         show={modalIsOpen}

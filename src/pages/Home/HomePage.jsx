@@ -1,92 +1,61 @@
-// src/pages/Home/HomePage.jsx
-
 import React, { useState, useEffect } from 'react';
-import './HomePage.css';
-// Ya no importamos CocinaItem
 import SolicitudItem from '../../components/SolicitudItem/SolicitudItem';
 import RejectModal from '../../components/RejectModal/RejectModal';
+import { API_BASE_URL, getAuthHeaders } from '../../api/config';
+import './HomePage.css';
 
 const HomePage = () => {
   const [pendingRequests, setPendingRequests] = useState([]);
-  // Ya no necesitamos 'registeredKitchens' en esta página
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [rejectionTargetId, setRejectionTargetId] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const API_URL = 'http://localhost:3004/api/v1/kitchens';
-  const ADMIN_ID = 1;
-
-  // Dejamos solo la lógica para cargar las solicitudes PENDIENTES
   const fetchPendingData = async () => {
     try {
-      const requestsRes = await fetch(`${API_URL}/pending`);
-      const requestsData = await requestsRes.json();
+      const res = await fetch(`${API_BASE_URL}/kitchens/pending`, {
+        method: 'GET',
+        headers: getAuthHeaders(), 
+      });
       
-      if (requestsData && requestsData.success && Array.isArray(requestsData.data)) {
-        setPendingRequests(requestsData.data);
+      if (res.status === 401) {
+        console.error("No autorizado. Tal vez el token expiró.");
+        return;
+      }
+
+      const data = await res.json();
+      
+      if (data && data.success && Array.isArray(data.data)) {
+        setPendingRequests(data.data);
       } else {
-        setPendingRequests([]); 
+        setPendingRequests([]);
       }
     } catch (error) {
-      console.error("Error al cargar las solicitudes pendientes:", error);
+      console.error("Error al cargar solicitudes:", error);
       setPendingRequests([]);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchPendingData(); // Renombramos la función para más claridad
-    const intervalId = setInterval(() => {
-      console.log("Buscando nuevas solicitudes...");
-      fetchPendingData();
-    }, 10000); 
-
-    return () => clearInterval(intervalId);
+    fetchPendingData();
   }, []);
 
-  // --- Lógica de Aceptar (Modificada) ---
   const handleAccept = async (id) => {
     try {
-      const res = await fetch(`${API_URL}/${id}/approve`, {
+      const res = await fetch(`${API_BASE_URL}/kitchens/${id}/approve`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ adminUserId: ADMIN_ID }),
+        headers: getAuthHeaders(),
       });
       if (res.ok) {
-        // En lugar de recargar todo, solo actualizamos las pendientes
-        fetchPendingData(); 
+        alert("Cocina aprobada correctamente");
+        fetchPendingData(); // Recargar lista
       } else {
-        console.error("Error al aprobar la solicitud");
+        alert("Error al aprobar la cocina");
       }
     } catch (error) {
-      console.error("Error de red al aprobar:", error);
+      console.error("Error de red:", error);
     }
-  };
-
-  // --- Lógica de Rechazar (Modificada) ---
-  const handleSubmitRejection = async (reason) => {
-    if (!reason) {
-      alert("Por favor, ingresa un motivo para rechazar.");
-      return;
-    }
-    try {
-      const res = await fetch(`${API_URL}/${rejectionTargetId}/reject`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          reason: reason,
-          adminUserId: ADMIN_ID 
-        }),
-      });
-      if (res.ok) {
-        // Solo actualizamos las pendientes
-        fetchPendingData(); 
-      } else {
-        console.error("Error al rechazar la solicitud");
-      }
-    } catch (error) {
-      console.error("Error de red al rechazar:", error);
-    }
-    setModalIsOpen(false);
-    setRejectionTargetId(null);
   };
 
   const handleReject = (id) => {
@@ -94,12 +63,33 @@ const HomePage = () => {
     setModalIsOpen(true);
   };
 
+  const handleSubmitRejection = async (reason) => {
+    if (!reason) return;
+    try {
+      const res = await fetch(`${API_BASE_URL}/kitchens/${rejectionTargetId}/reject`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ reason }),
+      });
+      if (res.ok) {
+        alert("Cocina rechazada correctamente");
+        fetchPendingData();
+      } else {
+        alert("Error al rechazar la cocina");
+      }
+    } catch (error) {
+      console.error("Error de red:", error);
+    }
+    setModalIsOpen(false);
+  };
+
   const handleCloseModal = () => {
     setModalIsOpen(false);
     setRejectionTargetId(null);
   };
 
-  // --- JSX (Simplificado) ---
+  if (loading) return <div className="requests-section"><h2>Cargando solicitudes...</h2></div>;
+
   return (
     <>
       <section className="requests-section">
@@ -118,12 +108,10 @@ const HomePage = () => {
               />
             ))
           ) : (
-            <p>No hay solicitudes pendientes para mostrar.</p>
+            <p>No hay solicitudes pendientes.</p>
           )}
         </div>
       </section>
-
-      {/* YA NO MOSTRAMOS LA LISTA DE COCINAS REGISTRADAS AQUÍ */}
 
       <RejectModal 
         show={modalIsOpen}

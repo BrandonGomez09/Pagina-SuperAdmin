@@ -1,4 +1,4 @@
-/* src/components/RejectModal/RejectModal.css */
+/* src/components/RejectModal/RejectModal.css (ACTUALIZADO) */
 
 .modal-overlay {
   position: fixed;
@@ -14,7 +14,7 @@
 }
 
 .modal-content {
-  background-color: #FFFFFF;
+  background-color: var(--color-surface); /* Fondo blanco (antes #FFFFFF) */
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -25,7 +25,7 @@
 .modal-title {
   margin-top: 0;
   font-size: 1.5rem;
-  color: #333;
+  color: var(--color-text); /* Texto negro (antes #333) */
 }
 
 .modal-label {
@@ -33,7 +33,7 @@
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
   font-weight: 600;
-  color: #555;
+  color: var(--color-text-light); /* Texto gris (antes #555) */
 }
 
 .modal-textarea {
@@ -41,9 +41,15 @@
   min-height: 100px;
   padding: 0.75rem;
   font-size: 1rem;
-  border: 1px solid #CCC;
+  border: 1px solid var(--color-outline); /* Borde gris (antes #CCC) */
   border-radius: 6px;
-  box-sizing: border-box; /* Importante para que el padding no rompa el ancho */
+  box-sizing: border-box;
+}
+
+.modal-textarea:focus {
+  outline: none;
+  border-color: var(--color-primary); /* Borde amarillo al enfocar */
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.25);
 }
 
 .modal-actions {
@@ -53,5 +59,7 @@
   gap: 1rem;
 }
 
-/* Usamos los estilos de botones que ya tienes */
-/* .btn-reject y .btn-accept están en HomePage.css */
+/* ¡No necesitamos estilos para .btn-reject y .btn-accept aquí!
+  Esos estilos ya están definidos globalmente en 'HomePage.css'
+  y el modal los usará automáticamente.
+*/

@@ -1,19 +1,21 @@
+/* src/components/SolicitudItem/SolicitudItem.css (ACTUALIZADO) */
+
 .solicitud-card {
   display: flex;
-  flex-direction: column; /* Apilado: cabecera y detalles */
-  padding: 0; /* Quitamos padding, se maneja adentro */
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
+  flex-direction: column;
+  padding: 0;
+  background-color: var(--color-surface); /* Fondo blanco (antes #ffffff) */
+  border: 1px solid var(--color-outline); /* Borde gris (antes #e0e0e0) */
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  overflow: hidden; /* Importante para el borde-radius */
+  overflow: hidden;
 }
 
 .solicitud-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem; /* El padding original de la tarjeta */
+  padding: 1.5rem;
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -22,29 +24,29 @@
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  flex-grow: 1; /* Ocupa el espacio disponible */
+  flex-grow: 1;
   cursor: pointer;
 }
 
 .solicitud-info:hover .kitchen-name {
-  color: #7D573C; /* Efecto hover */
+  color: var(--color-primary); /* Color amarillo al pasar mouse (antes #7D573C) */
 }
 
 .kitchen-name {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #2c2c2c;
+  color: var(--color-text); /* Texto negro (antes #2c2c2c) */
   transition: color 0.2s ease;
 }
 
 .applicant-name {
   font-size: 0.9rem;
-  color: #666;
+  color: var(--color-text-light); /* Texto gris (antes #666) */
 }
 
 .solicitud-toggle-btn {
   font-size: 0.9em;
-  color: #7D573C;
+  color: var(--color-secondary); /* Texto gris/taupe (antes #7D573C) */
   font-weight: 600;
   margin-top: 8px;
 }
@@ -52,20 +54,20 @@
 .solicitud-actions {
   display: flex;
   gap: 0.75rem;
-  flex-shrink: 0; /* Evita que los botones se encojan */
+  flex-shrink: 0;
 }
 
-/* Detalles (igual que en CocinaItem) */
+/* Detalles (contenido colapsado) */
 .solicitud-details {
   padding: 0 1.5rem 1.5rem 1.5rem;
-  border-top: 1px solid #f0f0f0;
-  background-color: #fafafa;
+  border-top: 1px solid var(--color-outline); /* Borde gris (antes #f0f0f0) */
+  background-color: var(--color-bg); /* Fondo blanco (antes #fafafa) */
 }
 
 .solicitud-details p {
   margin: 15px 0 0 0;
   line-height: 1.6;
-  color: #555;
+  color: var(--color-text-light); /* Texto gris (antes #555) */
 }
 
 .solicitud-details p:first-child {
@@ -73,31 +75,29 @@
 }
 
 .solicitud-details p strong {
-  color: #222;
+  color: var(--color-text); /* Texto negro (antes #222) */
 }   
-
-/* ... (estilos que ya tenías) ... */
 
 /* Estilos para los detalles internos */
 .details-subtitle {
   font-size: 1rem;
   font-weight: 700;
-  color: #333;
+  color: var(--color-text); /* Texto negro (antes #333) */
   margin-top: 1.5rem;
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--color-outline); /* Borde gris (antes #eee) */
 }
 
 .solicitud-details p {
   margin: 0;
   line-height: 1.5;
-  color: #555;
+  color: var(--color-text-light); /* Texto gris (antes #555) */
   padding: 8px 0;
 }
 
 .solicitud-details p strong {
-  color: #222;
+  color: var(--color-text); /* Texto negro (antes #222) */
 }
 
 /* Rejilla para mostrar los datos */
@@ -110,4 +110,42 @@
 /* Clase para que un campo ocupe todo el ancho (ej. Descripción) */
 .full-width {
   grid-column: 1 / -1;
+}
+
+/*
+ * ESTILOS PARA EL ESTATUS "BONITO"
+ * Agrégalo al final de SolicitudItem.css
+ */
+
+.status-badge {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9em;
+  margin-left: 8px;
+  text-transform: capitalize;
+}
+
+.status-pending {
+  background-color: #fff8e1; /* Amarillo claro */
+  color: #ffa000; /* Ámbar */
+  border: 1px solid #ffecb3;
+}
+
+.status-approved {
+  background-color: #e8f5e9; /* Verde claro */
+  color: #388e3c; /* Verde */
+  border: 1px solid #c8e6c9;
+}
+
+.status-rejected {
+  background-color: #ffebee; /* Rojo claro */
+  color: #d32f2f; /* Rojo */
+  border: 1px solid #ffcdd2;
+}
+
+.status-default {
+  background-color: #f5f5f5; /* Gris claro */
+  color: #616161; /* Gris */
+  border: 1px solid #eeeeee;
 }

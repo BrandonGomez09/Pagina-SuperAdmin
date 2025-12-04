@@ -1,15 +1,17 @@
+/* src/pages/Login/LoginPage.css (ACTUALIZADO) */
+
 .login-page {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   width: 100%;
-  background-color: #FFFCF5;
+  background-color: var(--color-bg); /* Fondo blanco (antes #FFFCF5) */
 }
 
 .login-container {
   padding: 2.5rem;
-  background-color: #FFFFFF;
+  background-color: var(--color-surface); /* Fondo blanco de la tarjeta */
   border-radius: 8px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   width: 100%;
@@ -20,7 +22,7 @@
 
 .login-title {
   font-size: 1.8rem;
-  color: #333;
+  color: var(--color-text); /* Texto negro (antes #333) */
   margin-top: 0;
   margin-bottom: 2rem;
 }
@@ -40,20 +42,21 @@
 .input-group label {
   margin-bottom: 0.5rem;
   font-weight: 600;
-  color: #555;
+  color: var(--color-text-light); /* Texto gris (antes #555) */
 }
 
 .input-group input {
   padding: 0.75rem;
-  border: 1px solid #CCC;
+  border: 1px solid var(--color-outline); /* Borde gris (antes #CCC) */
   border-radius: 6px;
   font-size: 1rem;
 }
 
 .input-group input:focus {
   outline: none;
-  border-color: #7D573C;
-  box-shadow: 0 0 0 2px rgba(125, 87, 60, 0.2);
+  border-color: var(--color-primary); /* Borde amarillo al enfocar */
+  /* Sombra amarilla al enfocar */
+  box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.25); 
 }
 
 .login-button {
@@ -62,13 +65,13 @@
   font-weight: 700;
   border-radius: 6px;
   cursor: pointer;
-  border: none;
-  background-color: #7D573C;
-  color: #FFFFFF;
+  border: 1px solid var(--color-on-primary); /* Borde negro sutil */
+  background-color: var(--color-primary); /* Fondo amarillo */
+  color: var(--color-on-primary); /* Texto negro */
   transition: background-color 0.2s ease;
   margin-top: 1rem;
 }
 
 .login-button:hover {
-  background-color: #6a4a33;
+  background-color: #E6C300; /* Amarillo más oscuro (antes #6a4a33) */
 }

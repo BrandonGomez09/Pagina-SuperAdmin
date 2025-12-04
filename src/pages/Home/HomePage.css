@@ -1,4 +1,5 @@
-/* Este es el archivo que antes se llamaba 'RequestList.css' */
+/* src/pages/Home/HomePage.css (ACTUALIZADO) */
+
 .requests-section {
   width: 100%;
   max-width: 900px;
@@ -9,19 +10,19 @@
 
 .requests-title {
   font-size: 1.8rem;
-  color: #333;
+  color: var(--color-text); /* Texto negro (antes #333) */
   margin-bottom: 1.5rem;
-  display: flex; /* Para alinear el contador */
-  justify-content: space-between; /* Para alinear el contador */
-  align-items: center; /* Para alinear el contador */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* 1. AÑADIMOS EL ESTILO PARA EL CONTADOR */
+/* 1. ESTILO DEL CONTADOR ACTUALIZADO */
 .item-counter {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #FFFFFF;
-  background-color: #7D573C; /* Color principal */
+  color: var(--color-on-primary); /* Texto negro (antes #FFFFFF) */
+  background-color: var(--color-primary); /* Fondo amarillo (antes #7D573C) */
   padding: 4px 12px;
   border-radius: 20px;
   display: inline-block;
@@ -34,15 +35,11 @@
   gap: 1rem;
 }
 
-/* 2. LIMPÍAMOS ESTILOS
-  Quitamos .request-card, .request-info, .kitchen-name, 
-  .applicant-name y .request-actions.
-  ¡Esos estilos AHORA VIVEN en 'SolicitudItem.css'!
+/* Quitamos estilos de .request-card, .request-info, etc.
+  Esos estilos viven en 'SolicitudItem.css'
 */
 
-/* Mantenemos los estilos de botones, ya que son globales
-  y los usan AMBOS componentes (SolicitudItem y CocinaItem)
-*/
+/* --- BOTONES GLOBALES DE ACCIÓN --- */
 .btn {
   padding: 0.6rem 1.2rem;
   font-size: 0.9rem;
@@ -53,25 +50,27 @@
   border: 1px solid transparent;
 }
 
+/* 2. BOTÓN ACEPTAR ACTUALIZADO */
 .btn-accept {
-  background-color: #7D573C;
-  color: #FFFFFF;
-  border-color: #7D573C;
+  background-color: var(--color-primary); /* Fondo amarillo */
+  color: var(--color-on-primary); /* Texto negro */
+  border: 1px solid var(--color-on-primary); /* Borde negro sutil */
 }
 
 .btn-accept:hover {
-  background-color: #6a4a33;
-  border-color: #6a4a33;
+  background-color: #E6C300; /* Amarillo oscuro (antes #6a4a33) */
+  border-color: #000000;
 }
 
+/* 3. BOTÓN RECHAZAR ACTUALIZADO */
 .btn-reject {
   background-color: transparent;
-  color: #7D573C;
-  border-color: #7D573C;
+  color: var(--color-secondary); /* Texto gris/taupe (antes #7D573C) */
+  border-color: var(--color-secondary); /* Borde gris/taupe */
 }
 
 .btn-reject:hover {
-  background-color: #FFFCF5;
-  color: #6a4a33;
-  border-color: #6a4a33;
+  background-color: var(--color-secondary-container); /* Fondo gris claro (antes #FFFCF5) */
+  color: var(--color-text); /* Texto negro (antes #6a4a33) */
+  border-color: var(--color-secondary);
 }

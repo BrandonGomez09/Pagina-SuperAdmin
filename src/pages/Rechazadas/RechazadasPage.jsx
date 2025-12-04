@@ -1,21 +1,26 @@
-// src/pages/Rechazadas/RechazadasPage.jsx
-
 import React, { useState, useEffect } from 'react';
 import CocinaItem from '../../components/CocinaItem/CocinaItem';
-import './RechazadasPage.css'; // Estilos para esta página
+import { API_BASE_URL, getAuthHeaders } from '../../api/config'; 
+import './RechazadasPage.css';
 
 const RechazadasPage = () => {
   const [cocinas, setCocinas] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  const API_URL = 'http://localhost:3004/api/v1/kitchens';
-
   useEffect(() => {
     const fetchCocinasRechazadas = async () => {
       setLoading(true);
       try {
-        // --- CAMBIO DE ENDPOINT ---
-        const res = await fetch(`${API_URL}/rejected`); 
+        const res = await fetch(`${API_BASE_URL}/kitchens/rejected`, {
+           method: 'GET',
+           headers: getAuthHeaders(),
+        });
+
+        if (res.status === 401) {
+           console.error("Sesión expirada o inválida");
+           return;
+        }
+
         const data = await res.json();
         
         if (data && data.success && Array.isArray(data.data)) {
@@ -36,25 +41,22 @@ const RechazadasPage = () => {
   if (loading) {
     return (
       <div className="list-section">
-        <h2 className="list-title">Cargando historial de rechazos...</h2>
+        <h2 className="list-title">Cargando historial...</h2>
       </div>
     );
   }
 
   return (
     <div className="list-section">
-      <h2 className="list-title">Cocinas Rechazadas</h2>
+      <h2 className="list-title">Historial de Cocinas Rechazadas</h2>
       <div className="list-container">
-        
         {cocinas.length > 0 ? (
           cocinas.map((cocina) => (
-            // Reutilizamos el mismo componente CocinaItem
             <CocinaItem key={cocina.id} cocina={cocina} />
           ))
         ) : (
           <p>No hay cocinas rechazadas para mostrar.</p>
         )}
-
       </div>
     </div>
   );

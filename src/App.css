@@ -1,7 +1,11 @@
+/* src/App.css */
 main {
-  /* 60px (altura del header) + 32px (margen) */
+  /* Esto es lo que arregla el problema.
+    Le dice al contenido (<main>) que empiece 92px más abajo,
+    dejando espacio para el Header de 60px + un margen de 32px.
+  */
   padding-top: 92px; 
   
-  /* 50px (altura del footer) + 32px (margen) */
+  /* Esto deja espacio para el Footer de 50px + un margen de 32px */
   padding-bottom: 82px;
 }

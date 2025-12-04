@@ -1,22 +1,20 @@
-// src/pages/Cocinas/CocinasPage.jsx
-
 import React, { useState, useEffect } from 'react';
 import CocinaItem from '../../components/CocinaItem/CocinaItem';
-import './CocinasPage.css'; // Estilos para esta página
+import { API_BASE_URL, getAuthHeaders } from '../../api/config'; 
+import './CocinasPage.css';
 
 const CocinasPage = () => {
   const [cocinas, setCocinas] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  // Usamos la misma URL que en HomePage
-  const API_URL = 'http://localhost:3004/api/v1/kitchens';
-
   useEffect(() => {
     const fetchCocinas = async () => {
       setLoading(true);
       try {
-        // Asumimos que /approved es el endpoint para cocinas registradas
-        const res = await fetch(`${API_URL}/approved`); 
+        const res = await fetch(`${API_BASE_URL}/kitchens/approved`, {
+            method: 'GET',
+            headers: getAuthHeaders(),
+        });
         const data = await res.json();
         
         if (data && data.success && Array.isArray(data.data)) {
@@ -32,22 +30,16 @@ const CocinasPage = () => {
     };
 
     fetchCocinas();
-  }, []); // Se ejecuta solo una vez al cargar la página
+  }, []);
 
-  // Mensaje de carga
   if (loading) {
-    return (
-      <div className="list-section">
-        <h2 className="list-title">Cargando cocinas...</h2>
-      </div>
-    );
+    return <div className="list-section"><h2 className="list-title">Cargando cocinas...</h2></div>;
   }
 
   return (
     <div className="list-section">
       <h2 className="list-title">Cocinas Comunitarias Registradas</h2>
       <div className="list-container">
-        
         {cocinas.length > 0 ? (
           cocinas.map((cocina) => (
             <CocinaItem key={cocina.id} cocina={cocina} />
@@ -55,7 +47,6 @@ const CocinasPage = () => {
         ) : (
           <p>No hay cocinas registradas para mostrar.</p>
         )}
-
       </div>
     </div>
   );

@@ -1,10 +1,12 @@
+/* src/components/CocinaItem/CocinaItem.css (ACTUALIZADO) */
+
 /* Estilos para la tarjeta individual de la cocina */
 .cocina-item-card {
-  background-color: #ffffff; /* [cite: 44] */
-  border: 1px solid #e0e0e0; /* [cite: 44] */
-  border-radius: 8px; /* [cite: 44] */
+  background-color: var(--color-surface); /* Fondo blanco (antes #ffffff) */
+  border: 1px solid var(--color-outline); /* Borde gris (antes #e0e0e0) */
+  border-radius: 8px;
   margin-bottom: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); /* [cite: 44] */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   overflow: hidden;
 }
 
@@ -13,38 +15,43 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem; /* [cite: 44] */
+  padding: 1.5rem;
   cursor: pointer;
 }
 
 .cocina-header:hover {
-  background-color: #fcfcfc;
+  background-color: var(--color-bg); /* Fondo blanco (antes #fcfcfc) */
+}
+
+.cocina-header:hover .cocina-header h3 {
+  color: var(--color-primary); /* Efecto hover amarillo */
 }
 
 .cocina-header h3 {
   margin: 0;
-  font-size: 1.1rem; /* [cite: 45] */
-  font-weight: 600; /* [cite: 45] */
-  color: #2c2c2c; /* [cite: 45] */
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text); /* Texto negro (antes #2c2c2c) */
+  transition: color 0.2s ease;
 }
 
 .cocina-toggle-btn {
   font-size: 0.9em;
-  color: #7D573C; /* [cite: 49] */
-  font-weight: 600; /* [cite: 47] */
+  color: var(--color-secondary); /* Texto gris/taupe (antes #7D573C) */
+  font-weight: 600;
 }
 
 /* Detalles de la cocina (contenido colapsado) */
 .cocina-details {
   padding: 0 1.5rem 1.5rem 1.5rem;
-  border-top: 1px solid #f0f0f0;
-  background-color: #fafafa;
+  border-top: 1px solid var(--color-outline); /* Borde gris (antes #f0f0f0) */
+  background-color: var(--color-bg); /* Fondo blanco (antes #fafafa) */
 }
 
 .cocina-details p {
   margin: 15px 0 0 0;
   line-height: 1.6;
-  color: #555;
+  color: var(--color-text-light); /* Texto gris (antes #555) */
 }
 
 .cocina-details p:first-child {
@@ -52,15 +59,13 @@
 }
 
 .cocina-details p strong {
-  color: #222;
+  color: var(--color-text); /* Texto negro (antes #222) */
 }
-
-/* ... (estilos que ya tenías) ... */
 
 /* Nuevo estilo para el nombre del responsable */
 .cocina-responsable {
   font-size: 0.9rem;
-  color: #666;
+  color: var(--color-text-light); /* Texto gris (antes #666) */
   margin-top: 4px;
 }
 
@@ -68,22 +73,22 @@
 .details-subtitle {
   font-size: 1rem;
   font-weight: 700;
-  color: #333;
+  color: var(--color-text); /* Texto negro (antes #333) */
   margin-top: 1.5rem;
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--color-outline); /* Borde gris (antes #eee) */
 }
 
 .cocina-details p {
   margin: 0;
   line-height: 1.5;
-  color: #555;
+  color: var(--color-text-light); /* Texto gris (antes #555) */
   padding: 8px 0;
 }
 
 .cocina-details p strong {
-  color: #222;
+  color: var(--color-text); /* Texto negro (antes #222) */
 }
 
 /* Rejilla para mostrar los datos */

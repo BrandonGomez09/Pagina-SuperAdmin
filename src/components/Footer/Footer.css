@@ -1,15 +1,17 @@
+/* src/components/Footer/Footer.css (ACTUALIZADO) */
+
 .main-footer {
   width: 100%;
   text-align: center;
   box-sizing: border-box;
   font-size: 0.9rem;
-  color: #777;
+  color: var(--color-text-light); /* Texto gris (antes #777) */
   height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-top: 1px solid #E0E0E0; 
-  background-color: #FFFFFF;
+  border-top: 1px solid var(--color-outline); /* Borde gris (antes #E0E0E0) */
+  background-color: var(--color-surface); /* Fondo blanco (antes #FFFFFF) */
   position: fixed;
   bottom: 0;
   left: 0;

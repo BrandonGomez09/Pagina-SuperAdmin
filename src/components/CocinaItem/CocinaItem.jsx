@@ -12,6 +12,7 @@ const CocinaItem = ({ cocina }) => {
   };
 
   const kitchenName = d(cocina.name);
+  
   const responsable = cocina.responsible?.names 
     ? `Nombre del dueño: ${d(cocina.responsible.names)} ${d(cocina.responsible.firstLastName)} ${d(cocina.responsible.secondLastName)}`
     : `ID Responsable: ${d(cocina.responsibleId || cocina.ownerId)}`;
@@ -35,14 +36,9 @@ const CocinaItem = ({ cocina }) => {
           <div className="details-grid">
             <p><strong>Nombre:</strong> {d(cocina.name)}</p>
             <p><strong>Estatus:</strong> {d(cocina.approvalStatus)}</p>
+            <p><strong>Teléfono:</strong> {d(cocina.contactPhone)}</p>
+            <p><strong>Email Cocina:</strong> {d(cocina.contactEmail)}</p>
             
-            {cocina.approvalStatus === 'approved' && (
-              <>
-                <p><strong>Teléfono:</strong> {d(cocina.contactPhone)}</p>
-                <p><strong>Email:</strong> {d(cocina.contactEmail)}</p>
-              </>
-            )}
-
             {cocina.approvalStatus === 'rejected' && (
               <p className="full-width"><strong>Razón de Rechazo:</strong> {d(cocina.rejectionReason)}</p>
             )}

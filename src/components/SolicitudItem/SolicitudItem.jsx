@@ -16,6 +16,7 @@ const SolicitudItem = ({ request, onAccept, onReject }) => {
   };
 
   const kitchenName = d(request.name);
+  
   const nombreCompleto = request.responsible?.names
     ? `${d(request.responsible.names)} ${d(request.responsible.firstLastName)} ${d(request.responsible.secondLastName)}`
     : `ID: ${d(request.responsibleId || request.ownerId)}`;
@@ -53,6 +54,7 @@ const SolicitudItem = ({ request, onAccept, onReject }) => {
           <div className="details-grid">
             <p><strong>Nombre:</strong> {d(request.name)}</p>
             <p><strong>Teléfono:</strong> {d(request.contactPhone)}</p>
+            <p><strong>Email Cocina:</strong> {d(request.contactEmail)}</p>
             <p className="full-width"><strong>Descripción:</strong><br/> {d(request.description)}</p>
           </div>
 
@@ -68,11 +70,11 @@ const SolicitudItem = ({ request, onAccept, onReject }) => {
             />
           </div>
           
-           <h4 className="details-subtitle">3. Responsable</h4>
+           <h4 className="details-subtitle">3. Datos del Responsable</h4>
            <div className="details-grid">
-             <p><strong>Nombre:</strong> {nombreCompleto}</p>
-             <p><strong>Email:</strong> {d(request.responsible?.email)}</p>
-             <p><strong>Teléfono:</strong> {d(request.responsible?.phoneNumber)}</p>
+             <p><strong>Nombre Completo:</strong> {nombreCompleto}</p>
+             <p><strong>Email Personal:</strong> {d(request.responsible?.email)}</p>
+             <p><strong>Teléfono Personal:</strong> {d(request.responsible?.phoneNumber)}</p>
            </div>
 
         </div>

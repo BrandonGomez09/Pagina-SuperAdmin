@@ -1,24 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import SolicitudItem from '../../components/SolicitudItem/SolicitudItem';
 import RejectModal from '../../components/RejectModal/RejectModal';
+import SuccessModal from '../../components/SuccessModal/SuccessModal';
 import { API_BASE_URL, getAuthHeaders } from '../../api/config';
 import './HomePage.css';
 
 const HomePage = () => {
   const [pendingRequests, setPendingRequests] = useState([]);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [rejectionTargetId, setRejectionTargetId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [modalRejectIsOpen, setModalRejectIsOpen] = useState(false);
+  const [rejectionTargetId, setRejectionTargetId] = useState(null);
+
+
+  const [successModal, setSuccessModal] = useState({
+    show: false,
+    title: '',
+    message: ''
+  });
 
   const fetchPendingData = async () => {
     try {
       const res = await fetch(`${API_BASE_URL}/kitchens/pending`, {
         method: 'GET',
-        headers: getAuthHeaders(), 
+        headers: getAuthHeaders(),
       });
       
       if (res.status === 401) {
-        console.error("No autorizado. Tal vez el token expiró.");
+        console.error("No autorizado. Token expirado.");
         return;
       }
 
@@ -39,17 +47,29 @@ const HomePage = () => {
 
   useEffect(() => {
     fetchPendingData();
+    const interval = setInterval(fetchPendingData, 10000);
+    return () => clearInterval(interval);
   }, []);
 
+  const showSuccess = (title, msg) => {
+    setSuccessModal({ show: true, title: title, message: msg });
+    fetchPendingData();
+  };
+
+  const closeSuccess = () => {
+    setSuccessModal({ ...successModal, show: false });
+  };
+
   const handleAccept = async (id) => {
+    if(!window.confirm("¿Seguro que deseas aprobar esta cocina?")) return;
+
     try {
       const res = await fetch(`${API_BASE_URL}/kitchens/${id}/approve`, {
         method: 'POST',
         headers: getAuthHeaders(),
       });
       if (res.ok) {
-        alert("Cocina aprobada correctamente");
-        fetchPendingData(); // Recargar lista
+        showSuccess('¡Cocina Aprobada!', 'La cocina ha sido registrada exitosamente.');
       } else {
         alert("Error al aprobar la cocina");
       }
@@ -58,9 +78,9 @@ const HomePage = () => {
     }
   };
 
-  const handleReject = (id) => {
+  const handleRejectClick = (id) => {
     setRejectionTargetId(id);
-    setModalIsOpen(true);
+    setModalRejectIsOpen(true);
   };
 
   const handleSubmitRejection = async (reason) => {
@@ -72,19 +92,19 @@ const HomePage = () => {
         body: JSON.stringify({ reason }),
       });
       if (res.ok) {
-        alert("Cocina rechazada correctamente");
-        fetchPendingData();
+        showSuccess('Cocina Rechazada', 'La solicitud ha sido rechazada correctamente.');
       } else {
         alert("Error al rechazar la cocina");
       }
     } catch (error) {
       console.error("Error de red:", error);
     }
-    setModalIsOpen(false);
+    setModalRejectIsOpen(false);
+    setRejectionTargetId(null);
   };
 
-  const handleCloseModal = () => {
-    setModalIsOpen(false);
+  const handleCloseRejectModal = () => {
+    setModalRejectIsOpen(false);
     setRejectionTargetId(null);
   };
 
@@ -104,7 +124,7 @@ const HomePage = () => {
                 key={request.id}
                 request={request}
                 onAccept={handleAccept}
-                onReject={handleReject}
+                onReject={handleRejectClick}
               />
             ))
           ) : (
@@ -114,9 +134,16 @@ const HomePage = () => {
       </section>
 
       <RejectModal 
-        show={modalIsOpen}
-        onClose={handleCloseModal}
+        show={modalRejectIsOpen}
+        onClose={handleCloseRejectModal}
         onSubmit={handleSubmitRejection}
+      />
+
+      <SuccessModal 
+        show={successModal.show}
+        onClose={closeSuccess}
+        title={successModal.title}
+        message={successModal.message}
       />
     </>
   );
